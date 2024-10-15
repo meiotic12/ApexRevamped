@@ -1,0 +1,27 @@
+{
+    "load": [
+        "apex.lua",
+        "global.lua",
+
+        "gui/base.lua",
+
+        "onUpdate.lua",
+        "onEvent.lua",
+
+        "casting.lua",
+
+        "pvp_utils/totemStomp.lua",
+        "pvp_utils/dodgeList.lua",
+
+        "classes/spells.lua",
+
+        "classes/priest/spells.lua",
+        "classes/priest/dodge.lua",
+        "classes/priest/discipline/spells.lua",
+        "classes/priest/discipline/actor.lua",
+
+        "classes/evoker/spells.lua",
+        "classes/evoker/augmentation/spells.lua",
+        "classes/evoker/augmentation/actor.lua"
+    ]
+}
