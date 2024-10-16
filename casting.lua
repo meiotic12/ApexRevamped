@@ -2,15 +2,42 @@ local Unlocker, awful, apex = ...
 
 local player = awful.player
 
-apex.DamageCastCheck = function(spell, target)
+apex.DamageCastCheck = function(spell, unit)
     if apex.castCheck[player.castID] then return false end
-    if not target.exists then return false end
-    if not target.enemy then return false end
+    if not unit.exists then return false end
+    if not unit.enemy then return false end
 
     return true
 end
 
-apex.DelatedCast = function(spell, delay, target)
+apex.PvPDamageCastCheck = function(spell, unit)
+    -- if not unit.isPlayer then return end
+    if not apex.DamageCastCheck(spell, unit) then return false end
+    if unit.bcc then return false end
+    if unit.immune then return false end
+
+    return true
+end
+
+apex.PvPMagicCastCheck = function(spell, unit)
+    if unit.immuneMagic then return false end
+    if unit.buff(212295) then return false end
+    if unit.buff(7121) then return false end
+
+    return true
+end
+
+apex.HealCastCheck = function(spell, unit)
+    if apex.castCheck[player.castID] then return false end
+    if not unit.exists then return false end
+    if not unit.friend then return false end
+    if unit.dead then return false end
+    if unit.immuneHealing then return false end
+
+    return true
+end
+
+apex.DelayedCast = function(spell, delay, target)
     if apex.delayedCacheList[spell.name] then
         if GetTime() > apex.delayedCacheList[spell.name].timeToCast
         and spell:Castable(target) then

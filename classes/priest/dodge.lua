@@ -38,12 +38,13 @@ priest.Fade:Callback("swdSpells", function(spell)
     end)
 end)
 
-base.Shadowmeld:Callback("fadeSpells", function(spell)
+priest.Shadowmeld:Callback("fadeSpells", function(spell)
     if apex.holdGCD then return end
+    if priest.Fade.cd == 0 then return end
     if player.used(priest.Fade, .5) then return end
 
     awful.enemies.loop(function(unit)
-        if (priest.Fade.cd - player.gcdRemains) < unit.castRemains then return end
+        if priest.Fade.cd < unit.castRemains then return end
 
         if not apex.fadeSpellsToDodge[unit.casting] then return end
         if not unit.casting then return end
@@ -59,13 +60,14 @@ base.Shadowmeld:Callback("fadeSpells", function(spell)
     end)
 end)
 
-base.Shadowmeld:Callback("swdSpells", function(spell)
+priest.Shadowmeld:Callback("swdSpells", function(spell)
     if apex.holdGCD then return end
+    if priest.Fade.cd == 0 then return end
     if player.used(priest.Fade, .5) then return end
     if player.used(priest.ShadowWordDeath, .5) then return end
 
     awful.enemies.loop(function(unit)
-        if (priest.Fade.cd - player.gcdRemains) < unit.castRemains then return end
+        if priest.Fade.cd < unit.castRemains then return end
         if (priest.ShadowWordDeath.cd - player.gcdRemains) < unit.castRemains then return end
 
         if not apex.swdSpellsToDodge[unit.casting] then return end
@@ -82,7 +84,7 @@ base.Shadowmeld:Callback("swdSpells", function(spell)
     end)
 end)
 
-priest.ShadowWordDeath:Callback("holdGCD", function(spell)
+priest.ShadowWordDeath:Callback("dodge", function(spell)
     apex.holdGCD = false
 
     awful.enemies.loop(function(unit)
@@ -98,9 +100,7 @@ priest.ShadowWordDeath:Callback("holdGCD", function(spell)
 
         apex.holdGCD = true
     end)
-end)
 
-priest.ShadowWordDeath:Callback("swdSpells", function(spell)
     if not apex.holdGCD then return end
 
     awful.enemies.loop(function(unit)

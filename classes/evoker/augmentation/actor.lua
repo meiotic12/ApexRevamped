@@ -10,7 +10,7 @@ local player = awful.player
 augmentation:Init(function()
 
     if not apex.settings.enable then return end
-    if player.mounted then return end
+    if apex.actorCheck() then return end
 
     -- Buffs --
     evoker.SourceOfMagic("default")

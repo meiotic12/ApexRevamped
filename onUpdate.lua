@@ -25,7 +25,6 @@ awful.onUpdate(function()
     apex.empoweredStage = stage
 end)
 
-apex.castCheck = {}
 awful.onUpdate(function()
     if player.casting then 
         apex.castCheck[player.castID] = awful.time
@@ -36,4 +35,15 @@ awful.onUpdate(function()
             apex.castCheck[player.castID] = nil
         end
     end
+end)
+
+awful.onUpdate(function()
+    if awful.time - apex.lastUpdate < .05 then return end
+
+    apex.filteredEnemies = awful.enemies.filter(function(unit) return unit.los end)
+    apex.sortedEnemies = apex.filteredEnemies.sort(function(a, b) return a.hp < b.hp end)
+    apex.filteredFriendlies = awful.fgroup.filter(function(unit) return unit.los end)
+    apex.sortedFriendlies = apex.filteredFriendlies.sort(function(a, b) return a.hp < b.hp end)
+
+    apex.lastUpdate = awful.time
 end)

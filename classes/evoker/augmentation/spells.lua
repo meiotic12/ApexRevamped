@@ -50,6 +50,7 @@ BreathOfEons:Callback("default", function(spell)
 end)
 
 EbonMight:Callback("default", function(spell)
+    if not player.combat then return end
     if target.ttd < 7 then return end
     if player.buffRemains(spell.name) > 4 then return end
 

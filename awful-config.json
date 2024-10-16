@@ -17,6 +17,9 @@
 
         "classes/priest/spells.lua",
         "classes/priest/dodge.lua",
+        "classes/priest/powerInfusion.lua",
+        "classes/priest/dispel.lua",
+        "classes/priest/purge.lua",
         "classes/priest/discipline/spells.lua",
         "classes/priest/discipline/actor.lua",
 
