@@ -16,7 +16,7 @@ priest.Fade:Callback("fadeSpells", function(spell)
         if not apex.fadeSpellsToDodge[unit.casting] then return end
         if not unit.castTarget.isUnit(player) then return end
         if not unit.los then return end
-        if unit.castRemains > .2+ awful.buffer then return end
+        if unit.castRemains > .2 + awful.buffer then return end
 
         return spell:Cast()
     end)
@@ -24,7 +24,8 @@ end)
 
 priest.Fade:Callback("swdSpells", function(spell)
     if apex.holdGCD then return end
-    if player.used(priest.ShadowWordDeath, .5) then return end
+    if player.used(priest.ShadowWordDeath, 1) then return end
+    if priest.ShadowWordDeath.cd < player.gcdRemains + .1 then return end
 
     awful.enemies.loop(function(unit)
         if (priest.ShadowWordDeath.cd - player.gcdRemains) < unit.castRemains then return end
@@ -32,7 +33,7 @@ priest.Fade:Callback("swdSpells", function(spell)
         if not apex.swdSpellsToDodge[unit.casting] then return end
         if not unit.castTarget.isUnit(player) then return end
         if not unit.los then return end
-        if unit.castRemains > .2+ awful.buffer then return end
+        if unit.castRemains > .2 + awful.buffer then return end
 
         return spell:Cast()
     end)
@@ -63,8 +64,9 @@ end)
 priest.Shadowmeld:Callback("swdSpells", function(spell)
     if apex.holdGCD then return end
     if priest.Fade.cd == 0 then return end
-    if player.used(priest.Fade, .5) then return end
-    if player.used(priest.ShadowWordDeath, .5) then return end
+    if priest.ShadowWordDeath.cd < player.gcdRemains + .1 then return end
+    if player.used(priest.Fade, 1) then return end
+    if player.used(priest.ShadowWordDeath, 1) then return end
 
     awful.enemies.loop(function(unit)
         if priest.Fade.cd < unit.castRemains then return end
@@ -93,15 +95,9 @@ priest.ShadowWordDeath:Callback("dodge", function(spell)
         if not apex.swdSpellsToDodge[unit.casting] then return end
         if not unit.castTarget.isUnit(player) then return end
         if not unit.los then return end
-        if unit.castRemains > awful.gcd + awful.buffer then return end
-
-        awful.call("SpellStopCasting")
-        awful.call("SpellStopCasting")
-        SpellStopCasting()
-        SpellStopCasting()
+        if unit.castRemains > .2 + awful.buffer then return end
 
         castingUnit = unit
-
         apex.holdGCD = true
     end)
 
@@ -111,6 +107,11 @@ priest.ShadowWordDeath:Callback("dodge", function(spell)
     awful.enemies.loop(function(unit)
         if unit.bcc then return end
         if castingUnit.castRemains > .2 + awful.buffer then return end
+
+        awful.call("SpellStopCasting")
+        awful.call("SpellStopCasting")
+        SpellStopCasting()
+        SpellStopCasting()
 
         return spell:Cast(unit)
     end)

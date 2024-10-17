@@ -17,7 +17,7 @@ awful.Populate({
     PowerWordRadiance = Spell(194509, { heal = true }),
     PowerWordSolace = Spell(129250),
     PurgeTheWicked = Spell(204197, { damage = "magic" }),
-    Rapture = Spell(47536),
+    Rapture = Spell(47536, { beneficial = true }),
     Schism = Spell(214621),
     ShadowCovenant = Spell(314867),
     UltimatePenitence = Spell(421453),

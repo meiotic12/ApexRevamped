@@ -10,6 +10,7 @@
 
         "casting.lua",
 
+        "pvp_utils/general.lua",
         "pvp_utils/totemStomp.lua",
         "pvp_utils/dodgeList.lua",
 

@@ -3,6 +3,7 @@ local Unlocker, awful, apex = ...
 if awful.player.class2 ~= "PRIEST" then return end
 
 local priest = apex.priest.base
+local discipline = apex.priest.discipline
 
 local player = awful.player
 local Spell, Item = awful.Spell, awful.Item
@@ -10,25 +11,30 @@ local Spell, Item = awful.Spell, awful.Item
 awful.Populate({
     AngelicFeather = Spell(121536),
     DesperatePrayer = Spell(19236, { ignoreGCD = true, ignoreCasting = true, ignoreChanneling = true }),
-    DispelMagic = Spell(5282),
+    DispelMagic = Spell(5282, { effect = "magic" }),
     Fade = Spell(586, { ignoreGCD = true, ignoreCasting = true, ignoreChanneling = true }),
     FlashHeal = Spell(2061, { heal = true, targeted = true }),
     Halo = Spell(120517, { heal = true }),
     HolyNova = Spell(132157),
     InnerLight = Spell(355897),
     InnerShadow = Spell(355898),
-    LeapOfFaith = Spell(73325),
+    LeapOfFaith = Spell(73325, { beneficial = true }),
     Levitate = Spell(1706),
     MassDispel = Spell(32375, { radius = 13.5, ignoreFacing = true }),
     MindBlast = Spell(8092, { damage = "magic" }),
-    MindControl = Spell(605),
+    MindControl = Spell(605, { cc = "charm", effect = "magic" }),
     MindGames = Spell(375901, { damage = "magic" }),
     PowerInfusion = Spell(10060, { beneficial = true }),
     PowerWordFortitude = Spell(21562),
     PowerWordLife = Spell(373481, { heal = true }),
     PowerWordShield = Spell(17, { beneficial = true }),
     PrayerOfMending = Spell(33076, { heal = true }),
-    PsychicScream = Spell(8122, { ignoreFacing = true, ignoreCasting = true, ignoreChanneling = true }),
+    Premonition = Spell(428924, { ignoreCasting = true, ignoreGCD = true }),
+    PremonitionOfInsight = Spell(428933, { ignoreCasting = true, ignoreGCD = true }),
+    PremonitionOfPiety = Spell(428930, { ignoreCasting = true, ignoreGCD = true }),
+    PremonitionOfSolace = Spell(428934, { ignoreCasting = true, ignoreGCD = true }),
+    PremonitionOfClairvoyance = Spell(440725, { ignoreCasting = true, ignoreGCD = true }),
+    PsychicScream = Spell(8122, { cc = "fear", effect = "magic", ignoreFacing = true, ignoreCasting = true }),
     Purify = Spell(527, { beneficial = true }),
     Renew = Spell(139, { heal = true }),
     ShadowWordDeath = Spell(32379, { ignoreCasting = true, ignoreChanneling = true }),
@@ -124,6 +130,48 @@ PowerWordShield:Callback("heal", function(spell, unit)
     if not apex.HealCastCheck(spell, unit) then return end
 
     return spell:Cast(unit)
+end)
+
+PremonitionOfInsight:Callback("penance", function(spell)
+    if not player.combat then return end
+    if discipline.Penance.cd > player.gcdRemains + .1 then return end
+
+    return Premonition:Cast()
+end)
+
+PremonitionOfInsight:Callback("powerWordShield", function(spell)
+    if not player.combat then return end
+    if PowerWordShield.cd > player.gcdRemains + .1 then return end
+
+    return Premonition:Cast()
+end)
+
+PremonitionOfPiety:Callback("lowHp", function(spell, unit)
+    if not player.combat then return end
+    if unit.hp > 60 then return end
+
+    return Premonition:Cast()
+end)
+
+PremonitionOfPiety:Callback("maxCharges", function(spell)
+    if not player.combat then return end
+    if Premonition.charges < 2 then return end
+
+    return Premonition:Cast()
+end)
+
+PremonitionOfSolace:Callback("default", function(spell, unit)
+    if not player.combat then return end
+    if unit.hp > 60 then return end
+
+    return Premonition:Cast()
+end)
+
+PremonitionOfClairvoyance:Callback("default", function(spell, unit)
+    if not player.combat then return end
+    if unit.hp > 60 then return end
+
+    return Premonition:Cast()
 end)
 
 Renew:Callback("filler", function(spell, unit)

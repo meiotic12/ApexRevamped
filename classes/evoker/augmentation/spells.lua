@@ -24,7 +24,7 @@ BlisteringScales:Callback("default", function(spell)
     if not tank.combat then return end
     if tank.buffStacks(spell.name) > 2 then return end
 
-    return spell:Cast(tank)
+    return apex.PvECast(spell, tank)
 end)
 
 BreathOfEons:Callback("default", function(spell)
@@ -54,14 +54,14 @@ EbonMight:Callback("default", function(spell)
     if target.ttd < 7 then return end
     if player.buffRemains(spell.name) > 4 then return end
 
-    return spell:Cast()
+    return apex.PvECast(spell)
 end)
 
 Eruption:Callback("default", function(spell)
     if not player.buff(EbonMight.name) then return end
     if not apex.DamageCastCheck(spell, target) then return end
 
-    return spell:Cast(target)
+    return apex.PvECast(spell, target)
 end)
 
 Prescience:Callback("default", function(spell)
@@ -74,7 +74,7 @@ Prescience:Callback("default", function(spell)
         if unit.dead then return end
         if unit.buffRemains(spell.name) > 3 then return end
 
-        return spell:Cast(unit)
+        return apex.PvECast(spell, unit)
     end)
 end)
 
@@ -96,11 +96,11 @@ Prescience:Callback("tank", function(spell)
     end)
 
     if count >= 2 and spell.charges == 2 then 
-        return spell:Cast(tank)
+        return apex.PvECast(spell, tank)
     end
 
     if count >= 2 and spell.nextChargeCD < lowest then 
-        return spell:Cast(tank)
+        return apex.PvECast(spell, tank)
     end
 end)
 
@@ -123,5 +123,5 @@ Upheaval:Callback("default", function(spell)
         augmentation.UpheavalStage = 1
     end
 
-    return spell:Cast(target)
+    return apex.PvECast(spell, target)
 end)

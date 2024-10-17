@@ -21,6 +21,15 @@ apex.buffId.surgeOfLight = 114255
 apex.buffId.rapture = 47536
 apex.buffId.fromDarknessComesLight = 390617
 apex.buffId.atonement = 194384
+apex.buffId.searingGlare = 410201
+apex.buffId.ultimatePenitence = 421453
+apex.buffId.spiritOfRedemption = 215769
+apex.buffId.groundingTotem = 8178
+apex.buffId.netherWard = 212295
+apex.buffId.berserkerRage = 18499
+apex.buffId.lichborne = 49039
+apex.buffId.antiMagicShell = 48707
+apex.buffId.spellReflect = 23920
 
 -- Dispel List
 apex.dispelList = {
@@ -61,6 +70,23 @@ apex.dispelList = {
     'Hibernate',
     'High Winds',
     'Frost Bomb',
+}
+
+apex.purgeListHighPrio = {
+    'Thorns',
+    'Natures Swiftness',
+    'Innervate',
+    'Soul of the Forest',
+    'Power Infusion',
+    'Netherward',
+    'Blessing of Protection',
+    'Blessing of Sanctuary',
+    'Heroism',
+    'Bloodlust',
+    'Combustion',
+    'Ice Form',
+    'Alter Time',
+    378464, -- Nullifying Shroud
 }
 
 apex.actorCheck = function()

@@ -22,6 +22,7 @@ apex.piClasses = {
 }
 
 priest.PowerInfusion:Callback("smart", function(spell)
+    if not player.combat then return end
     if not apex.sortedFriendlies then return end
 
     local currentClassIndex = 100

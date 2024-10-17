@@ -22,8 +22,8 @@ discipline:Init(function()
 
     priest.ShadowWordDeath("dodge")
     priest.Fade("fadeSpells")
-    priest.Fade("swdSpells")
     priest.Shadowmeld("fadeSpells")
+    priest.Fade("swdSpells")
     priest.Shadowmeld("swdSpells")
 
     if apex.holdGCD then return end
@@ -45,6 +45,7 @@ discipline:Init(function()
         if apex.sortedFriendlies[1].hp > 30 then
             apex.sortedEnemies.loop(function(unit)
                 priest.MassDispel("immunities", unit)
+                priest.DispelMagic("priority", unit)
             end)
         end
     end
@@ -67,7 +68,13 @@ discipline:Init(function()
 
     if apex.sortedFriendlies then
         apex.sortedFriendlies.loop(function(unit)
+            priest.PremonitionOfPiety("lowHp", unit)
+            priest.PremonitionOfPiety("maxCharges")
+            priest.PremonitionOfInsight("powerWordShield")
+            priest.PremonitionOfSolace("default", unit)
+            priest.PremonitionOfClairvoyance("default", unit)
             priest.PowerWordLife("heal", unit)
+            priest.PremonitionOfInsight("penance")
             discipline.Penance("heal", unit)
             discipline.PowerWordRadiance("heal", unit)
             priest.FlashHeal("surgeOfLight", unit)
@@ -81,6 +88,7 @@ discipline:Init(function()
 
     if apex.sortedEnemies then
         apex.sortedEnemies.loop(function(unit)
+            apex.eatSpellReflect(discipline.PurgeTheWicked, unit)
             discipline.UltimatePenitence("damage", unit)
             discipline.Penance("damage", unit)
             discipline.PurgeTheWicked("damage", unit)

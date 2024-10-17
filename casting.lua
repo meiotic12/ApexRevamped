@@ -11,16 +11,20 @@ apex.DamageCastCheck = function(spell, unit)
 end
 
 apex.PvPDamageCastCheck = function(spell, unit)
-    -- if not unit.isPlayer then return end
     if not apex.DamageCastCheck(spell, unit) then return false end
-    if unit.bcc then return false end
+    if unit.bccRemains > spell.castTime + awful.buffer then return false end
     if unit.immune then return false end
 
     return true
 end
 
 apex.PvPMagicCastCheck = function(spell, unit)
+    if player.debuff(apex.buffId.searingGlare) then return false end
+
     if unit.immuneMagic then return false end
+
+    if unit.buff(215769) then return false end -- Spirit of Redemption
+    if unit.buff(421453) then return false end
     if unit.buff(212295) then return false end
     if unit.buff(7121) then return false end
 
@@ -35,6 +39,16 @@ apex.HealCastCheck = function(spell, unit)
     if unit.immuneHealing then return false end
 
     return true
+end
+
+apex.PvECast = function(spell, unit)
+    if unit then
+        if not spell.inRange(unit) then return false end
+
+        return spell:Cast(unit, { ignoreRange = true })
+    end
+
+    return spell:Cast(unit)
 end
 
 apex.DelayedCast = function(spell, delay, target)

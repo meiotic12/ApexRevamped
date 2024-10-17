@@ -43,13 +43,13 @@ AzureStrike:Callback("default", function(spell)
     if not player.moving then return end
     if player.buff(358267) then return end -- HOVER
     if not apex.DamageCastCheck(spell, target) then return end
-    return spell:Cast(target)
+    return apex.PvECast(spell, target)
 end)
 
 BlessingOfTheBronze:Callback("buff", function(spell)
     if player.buff(spell.name) then return end
 
-    return apex.DelatedCast(spell, 1.5, player)
+    return apex.DelayedCast(spell, 1.5, player)
 end)
 
 EmeraldBlossom:Callback("default", function(spell)
@@ -57,7 +57,7 @@ EmeraldBlossom:Callback("default", function(spell)
         if unit.dead then return end
         if unit.hp > 50 then return end
 
-        return spell:Cast(unit)
+        return apex.PvECast(spell, unit)
     end)
 end)
 
@@ -68,7 +68,7 @@ Expunge:Callback("default", function(spell)
             local name, dispeltype, id = debuff[1], debuff[4], debuff[10]
             if unit.debuffUptime(name) < .5 then return end
             if dispeltype == "Poison" then
-                return spell:Cast(unit)
+                return apex.PvECast(spell, unit)
             end
         end
     end)
@@ -79,7 +79,7 @@ FireBreath:Callback("default", function(spell)
     if not IsShiftKeyDown() then return end
     if player.buffRemains(augmentation.EbonMight.name) < 2 then return end
     if not apex.DamageCastCheck(spell, target) then return end
-    return spell:Cast()
+    return apex.PvECast(spell)
 end)
 
 FireBreath:Callback("TipTheScales", function(spell)
@@ -89,7 +89,7 @@ FireBreath:Callback("TipTheScales", function(spell)
     if not player.buff(TipTheScales.name) then return end
     if not apex.DamageCastCheck(spell, target) then return end
 
-    return spell:Cast()
+    return apex.PvECast(spell)
 end)
 
 Hover:Callback("default", function(spell)
@@ -98,12 +98,12 @@ Hover:Callback("default", function(spell)
     if player.buffRemains(augmentation.EbonMight.name) > 8 then return end
     if player.buff(spell.name) then return end
 
-    return spell:Cast()
+    return apex.PvECast(spell)
 end)
 
 LivingFlame:Callback("default", function(spell)
     if not apex.DamageCastCheck(spell, target) then return end
-    return spell:Cast(target)
+    return apex.PvECast(spell, target)
 end)
 
 Quell:Callback("kick", function(spell)
@@ -115,18 +115,18 @@ Quell:Callback("kick", function(spell)
         if enemy.castInt then return end
         if enemy.castPct < (apex.kickDelay.now * 100) then return end
 
-        return spell:Cast(kick)
+        return apex.PvECast(spell, enemy)
     end)
 end)
 
 Rescue:Callback("default", function(spell)
     awful.group.loop(function(unit)
         if unit.dead then return end
-        if unit.hp > 60 then return end
+        if unit.hp > 40 then return end
 
         local x, y, z = unit.position()
         if apex.PveAoE(spell, x,y,z) then
-            return spell:Cast(unit)
+            return apex.PvECast(spell, unit)
         end
     end)
 end)
@@ -135,7 +135,7 @@ SourceOfMagic:Callback("default", function(spell)
     if not healer then return end
     if healer.buff(spell.name) then return end
 
-    return apex.DelatedCast(spell, 1.5, healer)
+    return apex.DelayedCast(spell, 1.5, healer)
 end)
 
 TipTheScales:Callback("default", function(spell)
@@ -143,14 +143,14 @@ TipTheScales:Callback("default", function(spell)
     if not player.buff(augmentation.EbonMight.name) then return end
     if FireBreath.cd - player.gcdRemains > .1 then return end
     if not player.combat then return end
-    return spell:Cast()
+    return apex.PvECast()
 end)
 
 VerdantEmbrace:Callback("default", function(spell)
     awful.fgroup.loop(function(unit)
         if unit.dead then return end
-        if unit.hp > 40 then return end
+        if unit.hp > 30 then return end
 
-        return spell:Cast(unit)
+        return apex.PvECast(spell, unit)
     end)
 end)
