@@ -37,8 +37,8 @@ discipline:Init(function()
             apex.sortedFriendlies.loop(function(unit)
                 priest.Purify("dispel", unit)
             end)
-            priest.PowerInfusion("smart")
         end
+        priest.PowerInfusion("smart")
     end
 
     if apex.sortedEnemies and apex.sortedFriendlies and apex.sortedFriendlies[1] then

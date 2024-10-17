@@ -24,7 +24,7 @@ awful.Populate({
     MindBlast = Spell(8092, { damage = "magic" }),
     MindControl = Spell(605, { cc = "charm", effect = "magic" }),
     MindGames = Spell(375901, { damage = "magic" }),
-    PowerInfusion = Spell(10060, { beneficial = true }),
+    PowerInfusion = Spell(10060, { beneficial = true, ignoreGCD = true }),
     PowerWordFortitude = Spell(21562),
     PowerWordLife = Spell(373481, { heal = true }),
     PowerWordShield = Spell(17, { beneficial = true }),
