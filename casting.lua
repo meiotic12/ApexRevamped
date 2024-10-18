@@ -45,7 +45,7 @@ apex.PvECast = function(spell, unit)
     if unit then
         if not spell.inRange(unit) then return false end
 
-        return spell:Cast(unit, { ignoreRange = true })
+        return spell:Cast(unit, { ignoreFacing = true, ignoreLoS = true })
     end
 
     return spell:Cast(unit)

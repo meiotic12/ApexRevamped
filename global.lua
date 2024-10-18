@@ -10,6 +10,7 @@ apex.sortedFriendlies = nil
 
 -- Combat
 apex.kickDelay = awful.delay(0.20, 0.80)
+apex.pveKickDelay = awful.delay(0.50, 0.88)
 
 -- Casting
 apex.castCheck = {}

@@ -10,6 +10,8 @@
 
         "casting.lua",
 
+        "pve_utils/kick.lua",
+
         "pvp_utils/general.lua",
         "pvp_utils/totemStomp.lua",
         "pvp_utils/dodgeList.lua",
@@ -21,6 +23,7 @@
         "classes/priest/powerInfusion.lua",
         "classes/priest/dispel.lua",
         "classes/priest/purge.lua",
+        "classes/priest/cc.lua",
         "classes/priest/discipline/spells.lua",
         "classes/priest/discipline/actor.lua",
 

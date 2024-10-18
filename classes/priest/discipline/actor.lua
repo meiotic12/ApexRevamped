@@ -20,13 +20,22 @@ discipline:Init(function()
 
     apex.holdGCD = false
 
-    priest.ShadowWordDeath("dodge")
-    priest.Fade("fadeSpells")
-    priest.Shadowmeld("fadeSpells")
-    priest.Fade("swdSpells")
-    priest.Shadowmeld("swdSpells")
+    if priest.ShadowWordDeath("dodge") then return end
+    if priest.Fade("fadeSpells") then return end
+    if priest.Shadowmeld("fadeSpells") then return end
+    if priest.Fade("swdSpells") then return end
+    if priest.Shadowmeld("swdSpells") then return end
 
     if apex.holdGCD then return end
+
+    if apex.sortedFriendlies then
+        apex.sortedFriendlies.loop(function(unit)
+            priest.VoidShift("lowHealthFriend", unit)
+        end)
+    end
+
+    if player.casting then return end
+    if player.channeling then return end
 
     if apex.sortedFriendlies and apex.sortedFriendlies[1] and apex.sortedFriendlies[1].hp > 30 then
         apex.totemStomp(PurgeTheWicked, priest.Smite)
@@ -55,7 +64,6 @@ discipline:Init(function()
     base.HealthStone()
     if apex.sortedFriendlies then
         apex.sortedFriendlies.loop(function(unit)
-            priest.VoidShift("lowHealthFriend", unit)
             discipline.Rapture("cooldowns", unit)
             discipline.Rapture("lowHp", unit)
             discipline.PowerWordBarrier("lowHp", unit)
@@ -64,6 +72,12 @@ discipline:Init(function()
             discipline.PainSuppression("lowHp", unit)
             discipline.PainSuppression("cooldowns", unit)
         end)
+    end
+
+    if apex.sortedEnemies and apex.sortedFriendlies and apex.sortedFriendlies[1] then
+        if apex.sortedFriendlies[1].hp > 30 then
+            priest.PsychicScream("enemyHealer")
+        end
     end
 
     if apex.sortedFriendlies then
@@ -101,5 +115,5 @@ discipline:Init(function()
 
     priest.PowerWordFortitude("buff")
     priest.InnerLight("buff")
-end, .10)
+end, .02)
 

@@ -99,11 +99,13 @@ PowerWordBarrier:Callback("cooldowns", function(spell, unit)
     local total, melee, ranged, cooldowns = unit.v2attackers()
     if cooldowns < 1 then return end
 
+    if unit.hp > (50 + (cooldowns * 15)) then return end
+
     return spell:SmartAoE(unit)
 end)
 
 PowerWordBarrier:Callback("doubleMelee", function(spell, unit)
-    if unit.hp > 80 then return end
+    if unit.hp > 50 then return end
     if unit.buff(PainSuppression.name) then return end
     if player.buff(Rapture.name) then return end
     if player.used(PainSuppression, .5) then return end

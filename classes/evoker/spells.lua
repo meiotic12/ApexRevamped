@@ -109,20 +109,17 @@ end)
 Quell:Callback("kick", function(spell)
     if not player.combat then return end
     awful.enemies.loop(function(enemy)
-        if not enemy.combat then return end
-        if enemy.distance > spell.range then return end
-        if not enemy.casting then return end
-        if enemy.castInt then return end
-        if enemy.castPct < (apex.kickDelay.now * 100) then return end
-
-        return apex.PvECast(spell, enemy)
+        return apex.PveKick(spell, enemy)
     end)
 end)
 
 Rescue:Callback("default", function(spell)
+    if not player.combat then return end
     awful.group.loop(function(unit)
         if unit.dead then return end
         if unit.hp > 40 then return end
+        if unit.los then return end
+        if unit.distance > spell.range then return end
 
         local x, y, z = unit.position()
         if apex.PveAoE(spell, x,y,z) then
@@ -143,7 +140,7 @@ TipTheScales:Callback("default", function(spell)
     if not player.buff(augmentation.EbonMight.name) then return end
     if FireBreath.cd - player.gcdRemains > .1 then return end
     if not player.combat then return end
-    return apex.PvECast()
+    return apex.PvECast(spell)
 end)
 
 VerdantEmbrace:Callback("default", function(spell)
