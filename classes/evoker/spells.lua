@@ -109,7 +109,13 @@ end)
 Quell:Callback("kick", function(spell)
     if not player.combat then return end
     awful.enemies.loop(function(enemy)
-        return apex.PveKick(spell, enemy)
+        if not enemy.combat then return end
+        if enemy.distance > spell.range then return end
+        if not enemy.casting then return end
+        if enemy.castInt then return end
+        if enemy.castPct < (apex.pveKickDelay.now * 100) then return end
+
+        return apex.PvECast(spell, enemy)
     end)
 end)
 

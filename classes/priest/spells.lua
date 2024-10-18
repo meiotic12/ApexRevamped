@@ -156,6 +156,7 @@ end)
 PremonitionOfPiety:Callback("maxCharges", function(spell)
     if not player.combat then return end
     if Premonition.charges < 2 then return end
+    if player.lastCast == Premonition.id then return end
 
     return Premonition:Cast()
 end)

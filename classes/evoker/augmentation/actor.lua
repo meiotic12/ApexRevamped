@@ -26,11 +26,13 @@ augmentation:Init(function()
 
     augmentation.BlisteringScales("default")
     augmentation.Prescience("default")
-    -- augmentation.Prescience("tank")
+    augmentation.Prescience("tank")
 
     if not target then return end
     if target.dead then return end
     if target.friendly then return end
+
+    apex.base.MadQueensMandate()
 
     apex.empowerRelease(evoker.FireBreath, 1)
     apex.empowerRelease(augmentation.Upheaval, augmentation.UpheavalStage)

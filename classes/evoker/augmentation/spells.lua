@@ -82,15 +82,15 @@ Prescience:Callback("tank", function(spell)
     if not player.combat then return end
 
     local count = 0
-    local lowest = 100
+    local highest = 0
     awful.group.loop(function(unit)
         if unit.isTank then return end
         if unit.isHealer then return end
         if unit.dead then return end
         if unit.buff(spell.name) then
             count = count + 1
-            if unit.buffRemains(spell.name) < lowest then
-                lowest = unit.buffRemains(spell.name)
+            if unit.buffRemains(spell.name) > highest then
+                highest = unit.buffRemains(spell.name)
             end
         end
     end)
@@ -99,7 +99,7 @@ Prescience:Callback("tank", function(spell)
         return apex.PvECast(spell, tank)
     end
 
-    if count >= 2 and spell.nextChargeCD < lowest then 
+    if count < 2 and spell.nextChargeCD > highest then 
         return apex.PvECast(spell, tank)
     end
 end)

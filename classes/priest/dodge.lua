@@ -23,6 +23,7 @@ priest.Fade:Callback("swdSpells", function(spell)
     if apex.holdGCD then return end
     if player.used(priest.ShadowWordDeath, 1) then return end
     if priest.ShadowWordDeath.cd < player.gcdRemains + .1 then return end
+    if player.lastCast == priest.ShadowWordDeath.id then return end
 
     awful.enemies.loop(function(unit)
         if not unit.casting then return end
@@ -40,6 +41,7 @@ end)
 priest.Shadowmeld:Callback("fadeSpells", function(spell)
     if priest.Fade.cd == 0 then return end
     if player.used(priest.Fade, .5) then return end
+    if player.lastCast == priest.Fade.id then return end
 
     awful.enemies.loop(function(unit)
         if not unit.casting then return end
@@ -64,6 +66,8 @@ priest.Shadowmeld:Callback("swdSpells", function(spell)
     if priest.ShadowWordDeath.cd < player.gcdRemains + .1 then return end
     if player.used(priest.Fade, 1) then return end
     if player.used(priest.ShadowWordDeath, 1) then return end
+    if player.lastCast == priest.Fade.id then return end
+    if player.lastCast == priest.ShadowWordDeath.id then return end
 
     awful.enemies.loop(function(unit)
         if not unit.casting then return end

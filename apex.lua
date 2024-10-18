@@ -15,3 +15,5 @@ apex.evoker.augmentation = awful.Actor:New({ spec = 3, class = "evoker" })
 apex.priest = {}
 apex.priest.base = {}
 apex.priest.discipline = awful.Actor:New({ spec = 1, class = "priest" })
+
+awful.apex = apex
